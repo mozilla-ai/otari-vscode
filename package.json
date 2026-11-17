@@ -2,7 +2,7 @@
   "name": "otari-vscode",
   "displayName": "Otari",
   "description": "Use your Otari gateway from VS Code: Otari models in chat, agents routed through Otari, and Agent Guardrails in the editor.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "mozilla-ai",
   "license": "Apache-2.0",
   "repository": {
