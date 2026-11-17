@@ -1,0 +1,14 @@
+schema_version: "1.0"
+policy:
+  id: fixture/broken
+  description: A guardrail with a gate the CLI refuses, for the integration test.
+
+gates:
+  - id: changed-needs-lint
+    type: command_if_changed
+    runs: [stop.session]
+    enforcement: required
+    when_changed: ["src/**/*.ts"]
+    require: ["npm run lint"]
+    surprise_field: true
+    message: Run the linter.

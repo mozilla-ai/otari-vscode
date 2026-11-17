@@ -1,0 +1,165 @@
+{
+  "name": "otari-vscode",
+  "displayName": "Otari",
+  "description": "Use your Otari gateway from VS Code: Otari models in chat, agents routed through Otari, and Agent Guardrails in the editor.",
+  "version": "0.1.0",
+  "publisher": "mozilla-ai",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mozilla-ai/otari-vscode"
+  },
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "AI",
+    "Chat",
+    "Linters"
+  ],
+  "keywords": [
+    "otari",
+    "llm",
+    "gateway",
+    "guardrails",
+    "byok"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished",
+    "workspaceContains:.otari"
+  ],
+  "contributes": {
+    "languageModelChatProviders": [
+      {
+        "vendor": "otari",
+        "displayName": "Otari",
+        "managementCommand": "otari.signIn"
+      }
+    ],
+    "commands": [
+      {
+        "command": "otari.signIn",
+        "title": "Sign In",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.signOut",
+        "title": "Sign Out",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.showMenu",
+        "title": "Show Menu",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.openDashboard",
+        "title": "Open Dashboard",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.refreshModels",
+        "title": "Refresh Models",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.routeAgents",
+        "title": "Route Coding Agents Through Otari",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.guardrails.validate",
+        "title": "Validate Agent Guardrails",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.guardrails.dryRun",
+        "title": "Dry Run Agent Guardrails Against a Command or Path",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.guardrails.check",
+        "title": "Check Changes Against Agent Guardrails",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.guardrails.setupHook",
+        "title": "Register the Agent Guardrails Hook",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.guardrails.generate",
+        "title": "Generate Agent Guardrails From AGENTS.md",
+        "category": "Otari"
+      },
+      {
+        "command": "otari.resetSpend",
+        "title": "Reset Session Spend",
+        "category": "Otari"
+      }
+    ],
+    "configuration": {
+      "title": "Otari",
+      "properties": {
+        "otari.gatewayUrl": {
+          "type": "string",
+          "default": "https://api.otari.ai",
+          "markdownDescription": "Base URL of the Otari gateway, without `/api/v1`. Use `https://eu.api.otari.ai` for otari.ai's EU region, or your own gateway's URL."
+        },
+        "otari.dashboardUrl": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Dashboard URL. Empty means `https://otari.ai/dashboard` for otari.ai and the gateway URL for your own gateway."
+        },
+        "otari.chat.models": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "Models to offer in VS Code chat, as Otari model ids (`anthropic:claude-sonnet-4-6`). Empty offers every chat model the gateway lists."
+        },
+        "otari.chat.tags": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "default": {
+            "source": "vscode"
+          },
+          "markdownDescription": "Request tags sent with every chat request, so usage from VS Code can be filtered in the dashboard."
+        },
+        "otari.cliPath": {
+          "type": "string",
+          "default": "otari",
+          "markdownDescription": "Path to the `otari` command used for Agent Guardrails. Install it with `brew install mozilla-ai/tap/otari`."
+        },
+        "otari.guardrails.validateOnSave": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Validate the guardrails when a file under `.otari/` is saved."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "esbuild src/extension.ts --bundle --platform=node --target=node20 --format=cjs --external:vscode --outfile=dist/extension.js --sourcemap",
+    "watch": "npm run build -- --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "package": "npm run build -- --minify && vsce package --no-dependencies",
+    "vscode:prepublish": "npm run build -- --minify",
+    "test:integration": "npm run build && node test/integration/run.mjs",
+    "mock": "node scripts/mock-gateway.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@types/vscode": "1.104.0",
+    "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.25.12",
+    "typescript": "^5.9.3",
+    "vitest": "^3.2.7"
+  }
+}
