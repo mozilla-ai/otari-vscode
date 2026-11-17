@@ -1,5 +1,5 @@
 // Runs test/integration/suite.cjs inside a real VS Code: the local install when VSCODE_PATH points at it,
-// otherwise a downloaded one.
+// otherwise a downloaded one, VSCODE_VERSION (`stable`, `1.104.0`) if set.
 import { execFileSync } from "node:child_process";
 import { cpSync, mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -26,6 +26,7 @@ if (suite === "e2e.cjs") {
 try {
 await runTests({
   ...(process.env.VSCODE_PATH ? { vscodeExecutablePath: process.env.VSCODE_PATH } : {}),
+  ...(process.env.VSCODE_VERSION ? { version: process.env.VSCODE_VERSION } : {}),
   extensionDevelopmentPath: root,
   extensionTestsPath: path.join(root, "test/integration", suite),
   extensionTestsEnv: env,
