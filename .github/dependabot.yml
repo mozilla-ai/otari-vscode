@@ -10,6 +10,9 @@ updates:
     ignore:
       # The engine floor: raising it drops older VS Code releases, so it moves on purpose.
       - dependency-name: "@types/vscode"
+      # Typings for the Node the engine floor runs (VS Code 1.104 ships Node 22), not the newest Node.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
