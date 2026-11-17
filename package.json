@@ -2,7 +2,7 @@
   "name": "otari-vscode",
   "displayName": "Otari",
   "description": "Your Otari gateway in VS Code: any model in chat, Claude Code and Codex routed through Otari, and Agent Guardrails in Problems.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "mozilla-ai",
   "license": "Apache-2.0",
   "icon": "media/icon.png",
