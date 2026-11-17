@@ -40,13 +40,13 @@ export class SpendTracker implements vscode.Disposable {
 
   private render(): void {
     if (!this.session.signedIn) {
-      this.item.text = "$(sign-in) Otari";
+      this.item.text = "$(otari-logo) Sign In";
       this.item.tooltip = "Sign in to Otari";
       this.item.command = "otari.signIn";
       return;
     }
     this.item.command = "otari.showMenu";
-    this.item.text = this.requests ? `$(pulse) Otari ${money(this.total)}` : "$(pulse) Otari";
+    this.item.text = this.requests ? `$(otari-logo) Otari ${money(this.total)}` : "$(otari-logo) Otari";
     const tooltip = new vscode.MarkdownString(undefined, true);
     tooltip.appendMarkdown(`**Otari** at \`${this.session.gatewayUrl}\`\n\n`);
     if (this.requests) {

@@ -2,7 +2,7 @@
   "name": "otari-vscode",
   "displayName": "Otari",
   "description": "Use your Otari gateway from VS Code: Otari models in chat, agents routed through Otari, and Agent Guardrails in the editor.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "mozilla-ai",
   "license": "Apache-2.0",
   "repository": {
@@ -141,6 +141,15 @@
           "markdownDescription": "Validate the guardrails when a file under `.otari/` is saved."
         }
       }
+    },
+    "icons": {
+      "otari-logo": {
+        "description": "The Otari mark",
+        "default": {
+          "fontPath": "./media/otari-icons.woff",
+          "fontCharacter": "\\E000"
+        }
+      }
     }
   },
   "scripts": {
@@ -152,7 +161,8 @@
     "vscode:prepublish": "npm run build -- --minify",
     "test:integration": "npm run build && node test/integration/run.mjs",
     "test:e2e": "npm run build && SUITE=e2e node test/integration/run.mjs",
-    "mock": "node scripts/mock-gateway.mjs"
+    "mock": "node scripts/mock-gateway.mjs",
+    "icons": "uvx --from fonttools python scripts/build-icon-font.py"
   },
   "devDependencies": {
     "@types/node": "^20.19.43",
