@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      dev-dependencies:
+        dependency-type: development
+    ignore:
+      # The engine floor: raising it drops older VS Code releases, so it moves on purpose.
+      - dependency-name: "@types/vscode"
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
