@@ -180,12 +180,12 @@
     "icons": "uvx --from fonttools python scripts/build-icon-font.py"
   },
   "devDependencies": {
-    "@types/node": "^20.19.43",
+    "@types/node": "^22.20.5",
     "@types/vscode": "1.104.0",
     "@vscode/test-electron": "^2.5.2",
     "@vscode/vsce": "^4.1.1",
-    "esbuild": "^0.25.12",
+    "esbuild": "^0.28.2",
     "typescript": "^5.9.3",
-    "vitest": "^3.2.7"
+    "vitest": "^5.1.0"
   }
 }
