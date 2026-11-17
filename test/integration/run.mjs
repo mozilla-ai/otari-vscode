@@ -12,9 +12,25 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 const workspace = mkdtempSync(path.join(tmpdir(), "otari-vscode-"));
 cpSync(path.join(root, "test/fixtures/broken"), workspace, { recursive: true });
 execFileSync("git", ["init", "-q"], { cwd: workspace });
+// SUITE=e2e signs in to the mock gateway and chats through VS Code's language model API.
+const suite = process.env.SUITE === "e2e" ? "e2e.cjs" : "suite.cjs";
+let mock;
+const env = { ...(process.env.SCREENSHOT ? { SCREENSHOT: process.env.SCREENSHOT } : {}) };
+if (suite === "e2e.cjs") {
+  const { spawn } = await import("node:child_process");
+  mock = spawn(process.execPath, [path.join(root, "scripts/mock-gateway.mjs"), "18788"], { stdio: ["ignore", "pipe", "inherit"] });
+  await new Promise((resolve) => mock.stdout.once("data", resolve));
+  mock.stdout.on("data", (data) => process.stdout.write(`[mock] ${data}`));
+  env.MOCK_URL = "http://localhost:18788";
+}
+try {
 await runTests({
   ...(process.env.VSCODE_PATH ? { vscodeExecutablePath: process.env.VSCODE_PATH } : {}),
   extensionDevelopmentPath: root,
-  extensionTestsPath: path.join(root, "test/integration/suite.cjs"),
+  extensionTestsPath: path.join(root, "test/integration", suite),
+  extensionTestsEnv: env,
   launchArgs: [workspace, "--disable-extensions", "--skip-welcome", "--skip-release-notes"],
 });
+} finally {
+  mock?.kill();
+}

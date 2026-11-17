@@ -77,17 +77,21 @@ export class OtariSession implements vscode.Disposable {
     this.changed.fire();
   }
 
-  async signIn(): Promise<boolean> {
-    const gateway = await this.pickGateway();
+  /** Prompts for the gateway and key, unless a script passes both (`otari.signIn` with `{ gatewayUrl, apiKey }`). */
+  async signIn(given?: { gatewayUrl?: unknown; apiKey?: unknown }): Promise<boolean> {
+    const scripted = typeof given?.gatewayUrl === "string" && typeof given.apiKey === "string";
+    const gateway = scripted ? (given.gatewayUrl as string) : await this.pickGateway();
     if (!gateway) return false;
 
-    const key = await vscode.window.showInputBox({
-      title: "Otari API key",
-      prompt: `An API key from ${gateway}. It is kept in VS Code's secret storage.`,
-      password: true,
-      ignoreFocusOut: true,
-      validateInput: (value) => (value.trim() ? undefined : "Paste an API key"),
-    });
+    const key = scripted
+      ? (given.apiKey as string)
+      : await vscode.window.showInputBox({
+          title: "Otari API key",
+          prompt: `An API key from ${gateway}. It is kept in VS Code's secret storage.`,
+          password: true,
+          ignoreFocusOut: true,
+          validateInput: (value) => (value.trim() ? undefined : "Paste an API key"),
+        });
     if (!key) return false;
 
     let url = gateway;

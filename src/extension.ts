@@ -21,7 +21,7 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     guardrails,
     wiring,
     vscode.lm.registerLanguageModelChatProvider("otari", chat),
-    vscode.commands.registerCommand("otari.signIn", () => session.signIn()),
+    vscode.commands.registerCommand("otari.signIn", (options?: { gatewayUrl?: unknown; apiKey?: unknown }) => session.signIn(options)),
     vscode.commands.registerCommand("otari.signOut", () => session.signOut()),
     vscode.commands.registerCommand("otari.openDashboard", () => vscode.env.openExternal(vscode.Uri.parse(session.dashboardUrl))),
     vscode.commands.registerCommand("otari.refreshModels", () => session.invalidate()),
@@ -59,6 +59,19 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
   );
 
   void guardrails.validateAll();
+  void welcome(context, session);
+}
+
+/** Once, on the first start without a key: nothing else is visible until someone signs in. */
+async function welcome(context: vscode.ExtensionContext, session: OtariSession): Promise<void> {
+  const WELCOMED = "otari.welcomed";
+  if (session.signedIn || context.globalState.get<boolean>(WELCOMED)) return;
+  await context.globalState.update(WELCOMED, true);
+  const pick = await vscode.window.showInformationMessage(
+    "Otari is installed. Sign in to use your Otari models in chat and route coding agents through your gateway.",
+    "Sign In",
+  );
+  if (pick) await session.signIn();
 }
 
 async function pickFolder(

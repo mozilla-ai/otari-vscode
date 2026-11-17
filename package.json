@@ -151,6 +151,7 @@
     "package": "npm run build -- --minify && vsce package --no-dependencies",
     "vscode:prepublish": "npm run build -- --minify",
     "test:integration": "npm run build && node test/integration/run.mjs",
+    "test:e2e": "npm run build && SUITE=e2e node test/integration/run.mjs",
     "mock": "node scripts/mock-gateway.mjs"
   },
   "devDependencies": {
