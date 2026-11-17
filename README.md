@@ -140,6 +140,17 @@ first tool it is offered when you ask it to "use a tool". The keys `bad` and `eu
 paths. `npm run icons` rebuilds the status bar icon font from `media/otari-mark.svg`, and
 `scripts/how-it-works.html` is the source of `media/how-it-works.png`.
 
+## Releasing
+
+1. Bump `version` in `package.json` and add its section to `CHANGELOG.md`.
+2. Merge, then tag the merge commit: `git tag v0.1.4 && git push origin v0.1.4`.
+
+The [Release workflow](.github/workflows/release.yml) checks the tag matches `package.json`, attaches the VSIX
+to a GitHub release, and publishes it to [Open VSX](https://open-vsx.org/extension/mozilla-ai/otari-vscode) and
+the Visual Studio Marketplace. A registry is skipped until its token is set: `OVSX_PAT` in the `open-vsx`
+environment, `VSCE_PAT` in `vs-marketplace`. Both environments accept `v*` tags only. To publish an existing
+tag again, for example after adding a token, run the workflow by hand with that tag.
+
 ## License
 
 [Apache 2.0](LICENSE). Otari is built by [Mozilla.ai](https://mozilla.ai).
