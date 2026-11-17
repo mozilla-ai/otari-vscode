@@ -7,3 +7,8 @@ tsconfig.json
 vitest.config.*
 .github/
 media/otari-mark.svg
+scripts/
+media/otari-logo.svg
+.vscode-test/
+.vscode/
+.gitignore

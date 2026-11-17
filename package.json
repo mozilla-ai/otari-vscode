@@ -1,14 +1,24 @@
 {
   "name": "otari-vscode",
   "displayName": "Otari",
-  "description": "Use your Otari gateway from VS Code: Otari models in chat, agents routed through Otari, and Agent Guardrails in the editor.",
+  "description": "Your Otari gateway in VS Code: any model in chat, Claude Code and Codex routed through Otari, and Agent Guardrails in Problems.",
   "version": "0.1.2",
   "publisher": "mozilla-ai",
   "license": "Apache-2.0",
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#0098A4",
+    "theme": "dark"
+  },
+  "homepage": "https://github.com/mozilla-ai/otari-vscode#readme",
   "repository": {
     "type": "git",
     "url": "https://github.com/mozilla-ai/otari-vscode"
   },
+  "bugs": {
+    "url": "https://github.com/mozilla-ai/otari-vscode/issues"
+  },
+  "pricing": "Free",
   "engines": {
     "vscode": "^1.104.0"
   },
@@ -21,8 +31,13 @@
     "otari",
     "llm",
     "gateway",
+    "ai",
+    "chat",
+    "byok",
+    "claude code",
+    "codex",
     "guardrails",
-    "byok"
+    "mozilla"
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
