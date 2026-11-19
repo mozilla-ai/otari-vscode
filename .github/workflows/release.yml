@@ -1,8 +1,9 @@
 name: Release
 
 # Push a tag that matches package.json's version (`v0.1.3`) to release it: the VSIX is attached to a GitHub
-# release and published to Open VSX and the Visual Studio Marketplace. Each registry is skipped with a notice
-# until its token is set in its environment: OVSX_PAT in `open-vsx`, VSCE_PAT in `vs-marketplace`.
+# release and published to Open VSX and the Visual Studio Marketplace. Open VSX is skipped with a notice until
+# OVSX_PAT is set in the `open-vsx` environment. The Marketplace needs no secret: the mozilla-ai publisher has a
+# Trusted Publishing policy for this workflow in the `vs-marketplace` environment.
 #
 # Run it by hand with a tag to publish that tag again, for example after adding a token. A registry that
 # already has the version is left alone, so running it twice is safe.
@@ -121,6 +122,9 @@ jobs:
     needs: package
     runs-on: ubuntu-latest
     environment: vs-marketplace
+    # The mozilla-ai publisher trusts this workflow in this environment, so the OIDC token is the credential.
+    permissions:
+      id-token: write
     steps:
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -129,12 +133,5 @@ jobs:
         with:
           name: vsix
       - name: Publish
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: |
-          if [ -z "${VSCE_PAT}" ]; then
-            echo "::notice::VSCE_PAT is not set in the vs-marketplace environment; skipping the Marketplace."
-            exit 0
-          fi
-          # --skip-duplicate keeps a second run of the same tag from failing.
-          npx --yes @vscode/vsce@3.9.2 publish --packagePath ./*.vsix --skip-duplicate
+        # --skip-duplicate keeps a second run of the same tag from failing.
+        run: npx --yes @vscode/vsce@4.1.1 publish --oidc --packagePath ./*.vsix --skip-duplicate
