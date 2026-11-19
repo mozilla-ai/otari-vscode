@@ -10,6 +10,8 @@
 </p>
 
 <p align="center">
+  <a href="https://marketplace.visualstudio.com/items?itemName=mozilla-ai.otari-vscode"><img src="https://img.shields.io/visual-studio-marketplace/v/mozilla-ai.otari-vscode?style=flat&label=VS%20Marketplace&color=0098A4" alt="Visual Studio Marketplace" /></a>
+  <a href="https://open-vsx.org/extension/mozilla-ai/otari-vscode"><img src="https://img.shields.io/open-vsx/v/mozilla-ai/otari-vscode?style=flat&label=Open%20VSX&color=0098A4" alt="Open VSX" /></a>
   <a href="https://otari.ai"><img src="https://img.shields.io/badge/otari.ai-0098A4?style=flat" alt="otari.ai" /></a>
   <a href="https://github.com/mozilla-ai/otari/blob/main/docs/index.md"><img src="https://img.shields.io/badge/Docs-0098A4?style=flat" alt="Docs" /></a>
   <a href="https://github.com/mozilla-ai/otari"><img src="https://img.shields.io/badge/Otari_on_GitHub-181717?style=flat&logo=github&logoColor=white" alt="Otari on GitHub" /></a>
@@ -65,7 +67,7 @@ Agent Guardrails run locally through the `otari` command and need no account:
 
 ## Getting started
 
-1. **Install** Otari from the Extensions view.
+1. **Install** Otari from the Extensions view, the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mozilla-ai.otari-vscode) or [Open VSX](https://open-vsx.org/extension/mozilla-ai/otari-vscode).
 2. **Sign in.** Accept the prompt, or run **Otari: Sign In**. Pick otari.ai, its EU region or your own
    gateway, then paste an API key. A key from the other otari.ai region is detected and the gateway
    switched for you.
@@ -147,9 +149,11 @@ paths. `npm run icons` rebuilds the status bar icon font from `media/otari-mark.
 
 The [Release workflow](.github/workflows/release.yml) checks the tag matches `package.json`, attaches the VSIX
 to a GitHub release, and publishes it to [Open VSX](https://open-vsx.org/extension/mozilla-ai/otari-vscode) and
-the Visual Studio Marketplace. A registry is skipped until its token is set: `OVSX_PAT` in the `open-vsx`
-environment, `VSCE_PAT` in `vs-marketplace`. Both environments accept `v*` tags only. To publish an existing
-tag again, for example after adding a token, run the workflow by hand with that tag.
+the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=mozilla-ai.otari-vscode).
+Open VSX uses the `OVSX_PAT` secret in the `open-vsx` environment. The Marketplace needs no secret: the
+`mozilla-ai` publisher's Trusted Publishing policy accepts this workflow running in the `vs-marketplace`
+environment. Both environments accept `v*` tags only. To publish an existing tag again, run the workflow by
+hand with that tag.
 
 ## License
 
